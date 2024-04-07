@@ -1,0 +1,321 @@
+Q1. Write a PHP script to display employees belongs to Sales department and salary is in between 50000 to 90000 and store found records into another table.
+Ans :
+
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "your_database";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM employees WHERE department = 'Sales' AND salary BETWEEN 50000 AND 90000";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $id = $row["id"];
+        $name = $row["name"];
+        $department = $row["department"];
+        $salary = $row["salary"];
+        
+        $insert_sql = "INSERT INTO another_table (id, name, department, salary) VALUES ('$id', '$name', '$department', '$salary')";
+        if ($conn->query($insert_sql) === TRUE) {
+            echo "Record inserted successfully<br>";
+        } else {
+            echo "Error inserting record: " . $conn->error . "<br>";
+        }
+    }
+} else {
+    echo "No employees found in the Sales department with salary between 50000 and 90000<br>";
+}
+
+$conn->close();
+?>
+
+
+Q2. Write a PHP script to design Employee Registration form. Insert 5 records in database and display all the inserted records on new page.
+Ans :
+
+employee_registration_form.php:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Registration Form</title>
+</head>
+<body>
+    <h2>Employee Registration Form</h2>
+    <form action="insert_employee.php" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="designation">Designation:</label><br>
+        <input type="text" id="designation" name="designation" required><br>
+        <label for="salary">Salary:</label><br>
+        <input type="number" id="salary" name="salary" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+insert_employee.php:
+
+<?php
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$name = $_POST['name'];
+$designation = $_POST['designation'];
+$salary = $_POST['salary'];
+
+$sql = "INSERT INTO employees (name, designation, salary) VALUES ('$name', '$designation', '$salary')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "New record inserted successfully<br>";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+?>
+
+<a href="display_employees.php">View all employees</a>
+
+
+display_employees.php:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Records</title>
+</head>
+<body>
+    <h2>Employee Records</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Salary</th>
+        </tr>
+        <?php
+        $servername = "localhost";
+        $username = "your_username";
+        $password = "your_password";
+        $dbname = "your_database";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM employees";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["designation"] . "</td><td>" . $row["salary"] . "</td></tr>";
+            }
+        } else {
+            echo "0 results";
+        }
+        $conn->close();
+        ?>
+    </table>
+</body>
+</html>
+
+
+Q3. Write a program to show current data and time using defined module in node js.
+Ans :
+
+const fs = require('fs');
+
+function getCurrentDateTime() {
+    const currentDate = new Date();
+    
+    const formattedDateTime = currentDate.toLocaleString();
+
+    return formattedDateTime;
+}
+
+function main() {
+    const currentDateTime = getCurrentDateTime();
+    
+    console.log('Current Date and Time:', currentDateTime);
+}
+
+main();
+
+
+Q4. Write a php program to store the username in a cookie and check whether the user has successfully logged in or not
+Ans:
+
+<?php
+function setCookieUsername($username) {
+    setcookie("username", $username, time() + 3600, "/");
+}
+
+function isLoggedIn() {
+    return isset($_COOKIE['username']);
+}
+
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+
+    setCookieUsername($username);
+
+    header("Location: logged_in.php");
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        Username: <input type="text" name="username"><br><br>
+        <input type="submit" name="submit" value="Login">
+    </form>
+</body>
+</html>
+
+
+Q5. Write a program in NodeJS to perform file CRUD operation by using fs module.
+Ans :
+
+const fs = require('fs');
+const path = require('path');
+
+function createFile(filePath, data, callback) {
+    fs.writeFile(filePath, data, (err) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, 'File created successfully.');
+        }
+    });
+}
+
+function readFile(filePath, callback) {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, data);
+        }
+    });
+}
+
+function updateFile(filePath, newData, callback) {
+    fs.writeFile(filePath, newData, (err) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, 'File updated successfully.');
+        }
+    });
+}
+
+function deleteFile(filePath, callback) {
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, 'File deleted successfully.');
+        }
+    });
+}
+
+
+const filePath = path.join(__dirname, 'example.txt');
+
+createFile(filePath, 'Hello, world!', (err, message) => {
+    if (err) {
+        console.error('Error creating file:', err);
+    } else {
+        console.log(message);
+        readFile(filePath, (err, data) => {
+            if (err) {
+                console.error('Error reading file:', err);
+            } else {
+                console.log('File content:', data);
+                updateFile(filePath, 'Updated content!', (err, message) => {
+                    if (err) {
+                        console.error('Error updating file:', err);
+                    } else {
+                        console.log(message);
+                        readFile(filePath, (err, data) => {
+                            if (err) {
+                                console.error('Error reading file:', err);
+                            } else {
+                                console.log('Updated file content:', data);
+                                deleteFile(filePath, (err, message) => {
+                                    if (err) {
+                                        console.error('Error deleting file:', err);
+                                    } else {
+                                        console.log(message);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+});
+
+
+Q6. Create an Angular program which will demonstrate the use of ngswitch directive.
+Ans :
+
+switch-demo.component.html
+
+<div [ngSwitch]="color">
+  <p *ngSwitchCase="'red'">You selected Red</p>
+  <p *ngSwitchCase="'blue'">You selected Blue</p>
+  <p *ngSwitchCase="'green'">You selected Green</p>
+  <p *ngSwitchDefault>Invalid color selection</p>
+</div>
+
+<select [(ngModel)]="color">
+  <option value="red">Red</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+</select>
+
+
+switch-demo.component.ts
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-switch-demo',
+  templateUrl: './switch-demo.component.html',
+  styleUrls: ['./switch-demo.component.css']
+})
+export class SwitchDemoComponent {
+  color: string = 'red'; 
+}
