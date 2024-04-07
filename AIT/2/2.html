@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Library</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      nav {
+        background-color: #eee;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 8px;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      nav li {
+        margin-right: 20px;
+      }
+
+      section {
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Music Library</h1>
+    </header>
+
+    <section id="video">
+      <h2>Video Songs</h2>
+      <p>Select an artist to view their video songs:</p>
+      <ul>
+        <li><a href="#artist1">Taylor Swift</a></li>
+        <li><a href="#artist2">Yo Yo Honey Singh</a></li>
+        <li><a href="#artist3">Sidhu Moose Wala</a></li>
+      </ul>
+
+      <div id="artist1" style="display: none">
+        <h3>Taylor Swift - Video Songs</h3>
+        <iframe
+          width="560"
+          height="315"
+          src="https://youtu.be/-BjZmE2gtdo?si=Ssampx1NL7i9_Cx8"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div id="artist2" style="display: none">
+        <h3>Yo Yo Honey Singh - Video Songs</h3>
+        <iframe
+          width="560"
+          height="315"
+          src="https://youtu.be/5oExKMYIE9U?si=xit8Hz_nrQNxCBly"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div id="artist3" style="display: none">
+        <h3>Artist 3 - Video Songs</h3>
+        <iframe
+          width="560"
+          height="315"
+          src="https://youtu.be/n_FCrCQ6-bA?si=MjxRx2u3sqRD5EVn"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+
+    <section id="audio">
+      <h2>Audio Songs</h2>
+      <p>Select an artist to listen to their audio songs:</p>
+      <ul>
+        <li><a href="#audio_artist1">Taylor Swift</a></li>
+        <li><a href="#audio_artist2">Yo Yo Honey Singh</a></li>
+        <li><a href="#audio_artist3">Sidhu Moose Wala</a></li>
+      </ul>
+
+      <div id="audio_artist1" style="display: none">
+        <h3>Taylor Swift - Audio Songs</h3>
+        <audio controls>
+          <source
+            src="https://youtu.be/-BjZmE2gtdo?si=Ssampx1NL7i9_Cx8"
+            type="audio/mp3"
+          />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <div id="audio_artist2" style="display: none">
+        <h3>Yo Yo Honey Singh - Audio Songs</h3>
+        <audio controls>
+          <source
+            src="https://youtu.be/5oExKMYIE9U?si=xit8Hz_nrQNxCBly"
+            type="audio/mp3"
+          />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <div id="audio_artist3" style="display: none">
+        <h3>Sidhu Moose Wala - Audio Songs</h3>
+        <audio controls>
+          <source
+            src="https://youtu.be/n_FCrCQ6-bA?si=MjxRx2u3sqRD5EVn"
+            type="audio/mp3"
+          />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    </section>
+
+    <script>
+      function showContent(artistId) {
+        // Hide all content divs
+        var allContentDivs = document.querySelectorAll("section div");
+        allContentDivs.forEach(function (div) {
+          div.style.display = "none";
+        });
+
+        // Show the selected content div
+        var selectedDiv = document.getElementById(artistId);
+        if (selectedDiv) {
+          selectedDiv.style.display = "block";
+        }
+      }
+
+      // Add click event listeners to the artist links
+      var artistLinks = document.querySelectorAll("section ul li a");
+      artistLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          showContent(link.getAttribute("href").substring(1));
+        });
+      });
+    </script>
+  </body>
+</html>
