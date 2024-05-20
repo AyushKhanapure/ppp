@@ -1,0 +1,1641 @@
+Q1. Write a program to check if the input year is leap year or not. Validate the input. 
+Ans :  
+ 
+year = int(input("Enter a year: ")) 
+ 
+if (year % 400 == 0) and (year % 100 == 0): 
+    print("{0} is a leap year".format(year)) 
+ 
+elif (year % 4 ==0) and (year % 100 != 0): 
+    print("{0} is a leap year".format(year)) 
+ 
+else: 
+    print("{0} is not a leap year".format(year)) 
+ 
+Q2. Write a program to find the factorial of a number using recursion. 
+Ans :  
+ 
+def recur_factorial(n): 
+   if n == 1: 
+       return n 
+   else: 
+       return n*recur_factorial(n-1) 
+num = 7 
+ 
+if num < 0: 
+   print("Sorry, factorial does not exist for negative numbers") 
+elif num == 0: 
+   print("The factorial of 0 is 1") 
+else: 
+   print("The factorial of", num, "is", recur_factorial(num)) 
+ 
+ 
+Q3. Write a program to print the sum of natural numbers using recursion. 
+Ans :  
+ 
+def recur_sum(n): 
+   if n <= 1: 
+       return n 
+   else: 
+       return n + recur_sum(n-1) 
+ 
+num = 16 
+ 
+if num < 0: 
+   print("Enter a positive number") 
+else: 
+   print("The sum is",recur_sum(num)) 
+ 
+ 
+Q4. Write a program to reverse each word of “data.txt” file. 
+Ans : 
+ 
+f1 = open("output1.txt", "w") 
+ 
+with open("data.txt", "r") as myfile: 
+ data = myfile.read() 
+ 
+data_1 = data[::-1] 
+f1.write(data_1) 
+ 
+f1.close()     
+ 
+ 
+Q5. Write a python program using MongoDB database to create a “Books” collection 
+having fields: title, Author (a list), Publisher, PubAddress, (a dict with keys like area, 
+city, country), Price, ISBN. Accept input from user to insert documents. 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017") 
+ 
+db = client["my_database"] 
+ 
+collection = db["Books"] 
+ 
+document = { 
+    "title": "The Great Gatsby", 
+    "author": ["F. Scott Fitzgerald"], 
+    "publisher": "Charles Scribner's Sons", 
+    "pub_address": { 
+        "area": "Manhattan", 
+        "city": "New York", 
+        "country": "USA" 
+    }, 
+    "price": 25.99, 
+    "isbn": "978-0-7432-7356-5" 
+} 
+ 
+collection.insert_one(document) 
+ 
+title = input("Enter the title of the book: ") 
+author = input("Enter the author of the book: ") 
+publisher = input("Enter the publisher of the book: ") 
+area = input("Enter the area of the publisher's address: ") 
+city = input("Enter the city of the publisher's address: ") 
+country = input("Enter the country of the publisher's address: ") 
+price = input("Enter the price of the book: ") 
+isbn = input("Enter the ISBN of the book: ") 
+ 
+new_document = { 
+    "title": title, 
+    "author": [author], 
+    "publisher": publisher, 
+    "pub_address": { 
+        "area": area, 
+        "city": city, 
+        "country": country 
+    }, 
+    "price": price, 
+    "isbn": isbn 
+} 
+ 
+collection.insert_one(new_document) 
+ 
+client.close() 
+ 
+ 
+Q6. Write a mongoDB program to update the “Books” collection given in above 
+question. 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017/") 
+db = client["my_database"]  # assuming "library" is the name of your database 
+collection = db["Books"]  # assuming "Books" is the name of your collection 
+ 
+query = {"title": " The Great Gatsby "}  # Specify the document to update 
+new_values = {"$set": {"author": "George Orwell", "year_published": 1949}}  # New values for 
+the document 
+collection.update_one(query, new_values) 
+ 
+updated_book = collection.find_one({"title": "1984"}) 
+print("Updated Document:") 
+print(updated_book) 
+ 
+ 
+Q7. Write a program to accept decimal number and print its octal and hexadecimal 
+equivalent. 
+Ans : 
+ 
+dec = 344 
+ 
+print("The decimal value of", dec, "is:") 
+print(oct(dec), "in octal.") 
+print(hex(dec), "in hexadecimal.") 
+ 
+Q8. Write a program to read the contents of file and display occurrance of given 
+character. 
+Ans : 
+ 
+try: 
+    file_path = input("Enter the file path: ") 
+    target_char = input("Enter the character to count occurrences of: ") 
+ 
+    with open(file_path, 'r') as file: 
+        content = file.read() 
+        count = content.count(target_char) 
+        print(f"The character '{target_char}' appears {count} times in the file '{file_path}'.") 
+except FileNotFoundError: 
+    print(f"Error: File '{file_path}' not found.") 
+ 
+ 
+Q9. Write a python program using mongoDB database to create a “student” collection 
+having fields: Student-ID, Name, Course, Mobile, Address. (a dict with keys like area, 
+city, country, pin) Accept input from user to insert documents. 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017/") 
+ 
+db = client["my_database"] 
+ 
+collection = db["student"] 
+ 
+student_data = { 
+    "Student-ID": input("Enter student ID: "), 
+    "Name": input("Enter student name: "), 
+    "Course": input("Enter student course: "), 
+    "Mobile": input("Enter student mobile number: "), 
+    "Address": { 
+        "area": input("Enter student address area: "), 
+        "city": input("Enter student address city: "), 
+        "country": input("Enter student address country: "), 
+        "pin": input("Enter student address pin code: "), 
+    }, 
+} 
+ 
+collection.insert_one(student_data) 
+ 
+client.close() 
+ 
+ 
+Q10. Write a MongoDB program to delete selected documents given in above 
+question. 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017") 
+ 
+db = client["my_database"] 
+collection = db["student"] 
+delete_criteria = { 
+"Course": "Computer Science"   
+} 
+result = collection.delete_many(delete_criteria) 
+print("Number of documents deleted:", result.deleted_count) 
+client.close() 
+
+
+
+
+Q11. Write a program to validate email address using regular expression. Also explain 
+the meaning of each and energy special character of the regular expression used by 
+you in this program. 
+Ans : 
+
+import re 
+regex = r'^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$' 
+email = 'example@email.com' 
+if re.fullmatch(regex, email): 
+print('The email address is valid.') 
+else: 
+print('The email address is invalid.') 
+ 
+ 
+
+Q12.  Write user defined exception program in python which will except age as an 
+input from the user and check whether the user is eligible for voting or not. If age<18 
+it should raise the exception as ‘Not eligible for voting’. 
+Ans : 
+ 
+class InvalidAgeException(Exception): 
+    "Raised when the input value is less than 18" 
+    pass 
+ 
+number = 18 
+ 
+try: 
+    input_num = int(input("Enter a number: ")) 
+    if input_num < number: 
+        raise InvalidAgeException 
+    else: 
+        print("Eligible to Vote") 
+         
+except InvalidAgeException: 
+    print("Exception occurred: Invalid Age") 
+ 
+ 
+Q13. Write a program to validate URL using regular expression. Also explain the 
+meaning of each and every special character of the regular expression used by you in 
+this program. 
+Ans : 
+ 
+import re 
+ 
+url_pattern = r'^https?://(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:/[a-zA-Z0-9
+._~:/?#[\]@!$&'()*+,;=.]*)?$' 
+ 
+url = input("Enter the URL to validate: ") 
+if re.match(url_pattern, url): 
+print("Valid URL") 
+else: 
+print("Invalid URL") 
+
+ 
+ 
+Q14. Write multithread program, where one thread prints square of a number and 
+another thread prints cube of numbers. Also display the total time taken for execution. 
+Ans : 
+ 
+import threading 
+import time 
+ 
+def print_squares(): 
+    for i in range(1, 6): 
+        print(f"Square of {i}: {i*i}") 
+        time.sleep(1) 
+ 
+def print_cubes(): 
+    for i in range(1, 6): 
+        print(f"Cube of {i}: {i*i*i}") 
+        time.sleep(1) 
+ 
+start_time = time.time() 
+ 
+thread1 = threading.Thread(target=print_squares) 
+thread2 = threading.Thread(target=print_cubes) 
+ 
+thread1.start() 
+thread2.start() 
+ 
+thread1.join() 
+thread2.join() 
+ 
+end_time = time.time() 
+ 
+total_time = end_time - start_time 
+print(f"Total time taken: {total_time:.2f} seconds") 
+ 
+ 
+Q15. Create a 5×5 2D numPy array and retrieve bottom right corner 2×2 array from it. 
+Ans : 
+ 
+import numpy as np 
+ 
+array_2d = np.array([[1, 2, 3, 4, 5], 
+                     [6, 7, 8, 9, 10], 
+                     [11, 12, 13, 14, 15], 
+                     [16, 17, 18, 19, 20], 
+                     [21, 22, 23, 24, 25]]) 
+ 
+bottom_right_corner = array_2d[3:, 3:] 
+print("Original 2D array:") 
+print(array_2d) 
+print("\nBottom right corner 2x2 array:") 
+print(bottom_right_corner) 
+Q16. Given a dataFrame df in Pandas as below: [4]  
+City MaxTemp MinTemp RainFall  
+Delhi 40 32 24.1  
+Bengaluru 31 25 36.2  
+Chennai 35 27 40.8  
+Mumbai 29 21 35.2  
+Kolkata 39 23 41.8  
+Write commands:  
+i) to compute sum of every column of the dateFrame.  
+ii) to compute mean of column rainFall. 
+iii) to compute Median of the MaxTemp column. 
+iv) to display all column names. 
+v) Display names of the cities having ‘Min Temp > 25. 
+vi) Display number of rows and colums 
+Ans :  
+ 
+
+import pandas as pd 
+# Creating DataFrame 
+data = {'City': ['Delhi', 'Bengaluru', 'Chennai', 'Mumbai', 'Kolkata'], 
+'MaxTemp': [40, 31, 35, 29, 39], 
+'MinTemp': [32, 25, 27, 21, 23], 
+'RainFall': [24.1, 36.2, 40.8, 35.2, 41.8]} 
+df = pd.DataFrame(data) 
+# i) Compute sum of every column 
+sum_of_columns = df.sum() 
+print("Sum of every column:") 
+print(sum_of_columns) 
+print() 
+# ii) Compute mean of column RainFall 
+mean_rainfall = df['RainFall'].mean() 
+print("Mean of column RainFall:", mean_rainfall) 
+print() 
+# iii) Compute Median of the MaxTemp column 
+median_maxtemp = df['MaxTemp'].median() 
+print("Median of the MaxTemp column:", median_maxtemp) 
+print() 
+# iv) Display all column names 
+column_names = df.columns 
+print("Column names:") 
+print(column_names) 
+print() 
+ 
+# v) Display names of the cities having ‘Min Temp > 25. 
+cities_min_temp_gt_25 = df[df['MinTemp'] > 25]['City'] 
+print("Cities with Min Temp > 25:") 
+print(cities_min_temp_gt_25) 
+print() 
+ 
+# vi) Display number of rows and columns 
+num_rows, num_columns = df.shape 
+print("Number of rows:", num_rows) 
+print("Number of columns:", num_columns) 
+ 
+Q17.  Create a 4×3 numPy array and find it’s column-wise mean. 
+Ans :  
+ 
+import numpy as np 
+ 
+array_2d = np.array([[1, 2, 3], 
+                     [4, 5, 6], 
+                     [7, 8, 9], 
+                     [10, 11, 12]]) 
+ 
+column_means = np.mean(array_2d, axis=0) 
+ 
+print("Original 2D array:") 
+print(array_2d) 
+print("\nColumn-wise mean:") 
+print(column_means) 
+ 
+ 
+Q18. Create a series from a numPy array and find frequency count of unique items of 
+a series. 
+Ans : 
+ 
+import numpy as np 
+import pandas as pd 
+ 
+numpy_array = np.array([1, 2, 2, 3, 3, 3, 4, 4, 4, 4]) 
+ 
+series = pd.Series(numpy_array) 
+ 
+frequency_count = series.value_counts() 
+ 
+print("Original Series:") 
+print(series) 
+print("\nFrequency count of unique items:") 
+print(frequency_count) 
+Q19. Create a pandas dataFrame using CSV file and perform a following:  
+i) Display first 10 rows.  
+ii) Display list of all columns. 
+Ans : 
+
+import pandas as pd 
+df = pd.read_csv("your_file.csv") 
+# i) Display first 10 rows 
+print("First 10 rows:") 
+print(df.head(10)) 
+# ii) Display list of all columns 
+print("\nList of all columns:") 
+print(df.columns.tolist()) 
+
+
+
+Q20. Write a python program for the following. [3]  
+i)  Create list of fruits  
+ii) Add new fruit in list.
+iii) sort the list.  
+iv) delete last fruit name from list. 
+Ans : 
+  
+
+fruits = ['apple', 'banana', 'orange', 'grape'] 
+# ii) Add new fruit in list 
+new_fruit = input("Enter a new fruit to add: ") 
+fruits.append(new_fruit) 
+# iii) Sort the list 
+fruits.sort() 
+# iv) Delete last fruit name from list 
+if fruits: 
+del fruits[-1] 
+print("Last fruit deleted.") 
+else: 
+print("List is empty.") 
+# Display the updated list of fruits 
+print("Updated list of fruits:") 
+print(fruits) 
+
+
+Q21. Write a python function to check the given number is even or odd. Handle 
+suitable exceptions. 
+Ans : 
+def check_even_odd(number): 
+    try: 
+        number = int(number) 
+         
+        if number % 2 == 0: 
+            print(f"{number} is even.") 
+        else: 
+            print(f"{number} is odd.") 
+             
+    except ValueError: 
+        # Handle exception if input is not a valid number 
+        print("Invalid input! Please enter a valid number.") 
+ 
+num_input = input("Enter a number: ") 
+check_even_odd(num_input) 
+ 
+ 
+Q22. Write a python program to create an employee. txt file and store employee name 
+and address. 
+Ans : 
+ 
+employee_data = [] 
+ 
+employee_name = input("Enter employee name: ") 
+employee_address = input("Enter employee address: ") 
+ 
+employee_data.append([employee_name, employee_address]) 
+ 
+with open("employee.txt", "w") as f: 
+    for employee in employee_data: 
+        f.write(f"{employee[0]},{employee[1]}\n") 
+ 
+f.close() 
+ 
+print("Employee data has been saved to employee.txt file.") 
+ 
+ 
+Q23. Write a python program to create “employee” collection with fields” (ID, name, 
+address, phone email and dept) in mongoDB. Prform the following operations. [5]  
+i) Display all employees in “Accounts” department  
+ii) Delete employee with ID - 210345  
+iii) Update phone with new phone for employee ID -123 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017/") 
+db = client["company"] 
+collection = db["employee"] 
+ 
+collection.insert_many([ 
+    {"ID": 123, "name": "John Doe", "address": "123 Main St", "phone": "123-456-7890", 
+"email": "john@example.com", "dept": "Accounts"}, 
+    {"ID": 210345, "name": "Jane Smith", "address": "456 Elm St", "phone": "987-654-3210", 
+"email": "jane@example.com", "dept": "Sales"}, 
+    {"ID": 456789, "name": "Alice Johnson", "address": "789 Oak St", "phone": "111-222
+3333", "email": "alice@example.com", "dept": "Accounts"} 
+]) 
+ 
+# Display all employees in "Accounts" department 
+print("Employees in Accounts department:") 
+for employee in collection.find({"dept": "Accounts"}): 
+    print(employee) 
+ 
+# Delete employee with ID - 210345 
+collection.delete_one({"ID": 210345}) 
+print("Employee with ID 210345 deleted.") 
+ 
+# Update phone with new phone for employee ID -123 
+collection.update_one({"ID": 123}, {"$set": {"phone": "555-555-5555"}}) 
+print("Phone updated for employee with ID 123.") 
+ 
+# Close connection to MongoDB 
+client.close() 
+ 
+Q24. Write a program to retrieve and display employee details from “Employee” 
+collection stored in mangoDB database. 
+Ans : 
+ 
+import pymongo 
+ 
+def display_employee_details(): 
+    try: 
+        client = pymongo.MongoClient("mongodb://localhost:27017/") 
+        db = client["your_database"]   
+        collection = db["Employee"]   
+                                                                                                    
+        employees = collection.find() 
+ 
+        print("Employee Details:") 
+        for employee in employees: 
+            print(f"Name: {employee['Name']}") 
+            print(f"Age: {employee['Age']}") 
+            print(f"Department: {employee['Department']}") 
+            print() 
+ 
+        client.close() 
+ 
+    except Exception as e: 
+        print("An error occurred:", e) 
+ 
+display_employee_details() 
+
+ 
+Q25. Write a program to update the employee details stored in “Employee” collection 
+stored in Mangodb database. 
+Ans : 
+ 
+import pymongo 
+ 
+client = pymongo.MongoClient("mongodb://localhost:27017/") 
+ 
+db = client["my_database"] 
+collection = db["Employee"] 
+ 
+employee_details = { 
+    "name": "John Doe", 
+    "age": 30, 
+    "salary": 50000 
+} 
+ 
+collection.update_one({"_id": 1}, {"$set": employee_details}) 
+ 
+print(collection.find_one({"_id": 1})) 
+ 
+client.close() 
+ 
+ 
+Q26. Write python program to read “employee” . txt” file and display alternate 
+employee record. 
+Ans : 
+ 
+with open("employee.txt", "r") as f: 
+    data = f.readlines() 
+ 
+alternate_records = [] 
+ 
+for i in range(0, len(data), 2): 
+    alternate_records.append(data[i]) 
+ 
+for record in alternate_records: 
+    print(record) 
+
+
+ 
+Q27. Write a program for extracting email address from a given webpage. 
+Ans : 
+ 
+import re 
+import requests 
+ 
+def extract_emails(url): 
+    try: 
+        response = requests.get(url) 
+        if response.status_code == 200: 
+            webpage_content = response.text 
+             
+            email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' 
+             
+            emails = re.findall(email_pattern, webpage_content) 
+             
+            for email in emails: 
+                print(email) 
+        else: 
+            print("Error: Unable to fetch webpage content.") 
+    except Exception as e: 
+        print(f"An error occurred: {e}") 
+ 
+webpage_url = input("Enter the URL of the webpage to extract email addresses from: ") 
+extract_emails(webpage_url) 
+ 
+Q28. Write a program to validate URL using regular expression. Explain every special 
+character of the regular expression used in this program. 
+Ans : 
+ 
+import re 
+ 
+url_pattern = r'^https?://(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:/[a-zA-Z0-9
+._~:/?#[\]@!$&'()*+,;=.]*)?$' 
+ 
+url = input("Enter the URL to validate: ") 
+ 
+if re.match(url_pattern, url): 
+    print("Valid URL") 
+else: 
+    print("Invalid URL") 
+ 
+
+ 
+Q29.  Write a multithreading program, where one thread prints square of a number 
+and another thread prints factorial of a number. Also display the total time taken for 
+the execution. 
+Ans :  
+ 
+import threading 
+import time 
+import math 
+ 
+def print_squares(): 
+    for i in range(1, 6): 
+        print(f"Square of {i}: {i*i}") 
+        time.sleep(1) 
+ 
+def calculate_factorials(): 
+    for i in range(1, 6): 
+        print(f"Factorial of {i}: {math.factorial(i)}") 
+        time.sleep(1) 
+ 
+start_time = time.time() 
+ 
+thread1 = threading.Thread(target=print_squares) 
+thread2 = threading.Thread(target=calculate_factorials) 
+ 
+thread1.start() 
+thread2.start() 
+ 
+thread1.join() 
+thread2.join() 
+ 
+end_time = time.time() 
+ 
+total_time = end_time - start_time 
+print(f"Total time taken: {total_time:.2f} seconds") 
+ 
+ 
+Q30.  Create 5×5 2D numpy assay and retrieve top left corner 2×2 array from it. 
+Ans : 
+ 
+import numpy as np 
+ 
+array_2d = np.array([[1, 2, 3, 4, 5], 
+                     [6, 7, 8, 9, 10], 
+                     [11, 12, 13, 14, 15], 
+                     [16, 17, 18, 19, 20], 
+                     [21, 22, 23, 24, 25]]) 
+ 
+top_left_corner = array_2d[:2, :2] 
+ 
+print("Original 2D array:") 
+print(array_2d) 
+print("\nTop left corner 2x2 array:") 
+print(top_left_corner) 
+ 
+ 
+
+Q31. Write a program to illustrate slicing in numpy array. 
+Ans : 
+ 
+import numpy as np 
+ 
+arr = np.arange(10*20*30).reshape(10, 20, 30) 
+ 
+# Slice the array from the index 2 to the index 5 from the second row 
+print(arr[1, 2:5]) 
+ 
+# Slice the array from the index 4 to the end of the array 
+print(arr[4:]) 
+ 
+# From the second element, slice elements from index 1 to index 4 (not included) 
+print(arr[1, 1:4]) 
+ 
+
+
+Q32. Create paundas dataframe using two dimensional list. Perform following 
+operations. [4]  
+i) Count number of rows.  
+ii) Count missing values in first column.  
+iii) Display number of columns in data frame. 
+Ans : 
+ 
+import pandas as pd 
+ 
+# Create the two-dimensional list 
+lst = [['Alice', 25], ['Bob', 30], ['Carol', 26], ['Dave', 22]] 
+ 
+# Create the DataFrame 
+df = pd.DataFrame(lst, columns=['Name', 'Age']) 
+ 
+# Count the number of rows 
+print("Number of rows:", len(df)) 
+ 
+# Count the missing values in the first column 
+print("Missing values in first column:", df['Name'].isnull().sum()) 
+ 
+# Display the number of columns in the DataFrame 
+print("Number of columns:", df.shape[1]) 
+ 
+
+ 
+Q33. Create 3×3 numpy array and display column wise mean and median. 
+Ans : 
+ 
+import numpy as np 
+ 
+arr = np.array([[1, 2, 3], 
+                [2, 3, 4], 
+                [3, 4, 5]]) 
+ 
+print(arr) 
+ 
+# Calculate the column-wise mean 
+mean = np.mean(arr, axis=0) 
+ 
+# Display the column-wise mean 
+print("Column-wise mean:", mean) 
+ 
+# Calculate the column-wise median 
+median = np.median(arr, axis=0) 
+ 
+# Display the column-wise median 
+print("Column-wise median:", median) 
+ 
+ 
+Q34. Create a series from numpy array and find max and mean of unique items of 
+series. 
+Ans : 
+ 
+import numpy as np 
+import pandas as pd 
+ 
+np_array = np.array([1, 2, 3, 4, 5, 1, 2, 3]) 
+ 
+series = pd.Series(np_array) 
+ 
+unique_values = series.unique() 
+ 
+max_value = unique_values.max() 
+mean_value = unique_values.mean() 
+ 
+print("Unique values:", unique_values) 
+print("Max value:", max_value) 
+print("Mean value:", mean_value) 
+ 
+ 
+Q35. Given data frame as below: [4]  
+ID Name HRA TA DA  
+1001 Mohan 12000 6000 10000  
+1002 Sachin 13000 5000 9000  
+1003 Virat 11000 4000 8000  
+i) Compute sum of each column.  
+ii) Compute mean of each integer column.  
+iii) Compute median of each integer column. 
+Ans : 
+ 
+
+import pandas as pd 
+ 
+data = { 
+    'ID': [1001, 1002, 1003], 
+    'Name': ['Mohan', 'Sachin', 'Virat'], 
+    'HRA': [12000, 13000, 11000], 
+    'TA': [6000, 5000, 4000], 
+    'DA': [10000, 9000, 8000] 
+} 
+ 
+df = pd.DataFrame(data) 
+ 
+print("Sum of each column:") 
+print(df.sum()) 
+ 
+print("\nMean of each integer column:") 
+print(df.select_dtypes(include=['int']).mean()) 
+ 
+print("\nMedian of each integer column:") 
+print(df.select_dtypes(include=['int']).median()) 
+ 
+
+
+Q36. Write a program that accept the string from user and display the same string 
+after removing vowels from it. 
+Ans : 
+ 
+string = input("Enter the string : ") 
+ 
+vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'] 
+result = "" 
+ 
+for i in range(len(string)): 
+    if string[i] not in vowels: 
+        result = result + string[i] 
+ 
+print("\nAfter removing Vowels: ", result) 
+ 
+
+
+Q37. Create class called, library with data attributes like Acc-number publisher, title 
+and author, the methods of the class should include [4]  
+i) Read ( ) - Acc- number, title, author, publisher.  
+ii) Compute ( ) - to accept the number of day late, calculate and display the 
+fine charged at the rate of Rupees 5/- per day.  
+iii) Display the data 
+Ans : 
+ 
+class Library: 
+    def __init__(self, acc_number, publisher, title, author): 
+        self.acc_number = acc_number 
+        self.publisher = publisher 
+        self.title = title 
+        self.author = author 
+     
+    def read(self): 
+        return f"Acc-number: {self.acc_number}, Title: {self.title}, Author: {self.author}, 
+Publisher: {self.publisher}" 
+     
+    def compute_fine(self, days_late): 
+        fine = days_late * 5 
+        return f"Fine charged for {days_late} days late: Rs. {fine}/-" 
+     
+    def display_data(self): 
+        return f"Acc-number: {self.acc_number}, Title: {self.title}, Author: {self.author}, 
+Publisher: {self.publisher}" 
+ 
+# Example usage: 
+book1 = Library(123456, "Publisher1", "Book1", "Author1") 
+ 
+print("Book 1 Data:", book1.read()) 
+ 
+print("Fine for Book 1:", book1.compute_fine(3))  # Assuming book is 3 days late 
+ 
+print("Display Book 1 Data:", book1.display_data()) 
+
+
+ 
+Q38.  Develop a program to print the number of lines, words and characters present in 
+the given file? Accept the file name from user. Handle necessary exceptions. 
+Ans : 
+ 
+try: 
+    file_name = input("Enter the file name: ") 
+ 
+    with open(file_name, 'r') as file: 
+        lines = file.readlines() 
+        line_count = len(lines) 
+         
+        word_count = 0 
+        char_count = 0 
+        for line in lines: 
+            words = line.split() 
+            word_count += len(words) 
+            char_count += sum(len(word) for word in words) 
+print(f"Number of lines: {line_count}") 
+print(f"Number of words: {word_count}") 
+print(f"Number of characters: {char_count}") 
+except FileNotFoundError: 
+print(f"Error: File '{file_name}' not found.") 
+except Exception as e: 
+print(f"An error occurred: {e}") 
+
+
+
+Q39. Illustrate CRUD operations in MongoDB with example. 
+Ans : 
+
+import pymongo 
+client = pymongo.MongoClient("mongodb://localhost:27017/") 
+db = client["mydatabase"] 
+collection = db["students"] 
+student1 = {"name": "Alice", "age": 20, "major": "Computer Science"} 
+student2 = {"name": "Bob", "age": 22, "major": "Mathematics"} 
+collection.insert_one(student1) 
+collection.insert_one(student2) 
+# Read operation 
+print("Reading all students:") 
+for student in collection.find(): 
+print(student) 
+# Update operation 
+query = {"name": "Alice"} 
+new_values = {"$set": {"age": 21}} 
+collection.update_one(query, new_values) 
+print("\nAfter updating Alice's age:") 
+for student in collection.find(): 
+print(student) 
+# Delete operation 
+query = {"name": "Bob"} 
+collection.delete_one(query) 
+print("\nAfter deleting Bob:") 
+for student in collection.find(): 
+print(student) 
+# Drop collection (optional) 
+# collection.drop() 
+# Close connection to MongoDB 
+client.close() 
+
+
+
+Q40. Write a program to check whether entered string & number is palindrome or not. 
+Ans : 
+def is_palindrome(s): 
+if not isinstance(s, str): 
+s = str(s) 
+s = s.lower().replace(" ", "") 
+return s == s[::-1] 
+num = input("Enter the number : ") 
+string = input("Enter the string : ") 
+print(is_palindrome(num)) 
+print(is_palindrome(string)) 
+
+
+
+Q41.  Develop a python program to remove the comment character from all the lines 
+in the given file. Accept the file name from use. 
+Ans : 
+
+def remove_comments(file_name): 
+with open(file_name, "r") as f: 
+lines = f.readlines() 
+for i in range(len(lines)): 
+lines[i] = lines[i].partition("#")[0] 
+with open(file_name, "w") as f: 
+f.writelines(lines) 
+file_name = input("Enter the name of the file: ") 
+remove_comments(file_name) 
+print("Comments have been removed from the file.") 
+
+
+
+Q42. Write a python program to perform following operations. on MongoDB Database. 
+[5] 
+i) Create collection “EMP” with fields: Emp-name, Emp- mobile, Emp, sal, Age  
+ii) Insert 5 documents.  
+iii) Find the employees getting salary between 5000 to 10000.
+iv) Update mobile number for the employee named as “Riddhi”  
+v) Display all employees in the order of “Age”
+Ans : 
+
+import pymongo 
+client = pymongo.MongoClient("localhost", 27017) 
+ 
+db = client["my_database"] 
+ 
+collection = db["EMP"] 
+ 
+# Insert 5 documents 
+collection.insert_many([ 
+    {"Emp-name": "John Doe", "Emp-mobile": "1234567890", "Emp-sal": 5000, "Age": 25}, 
+    {"Emp-name": "Jane Doe", "Emp-mobile": "9876543210", "Emp-sal": 10000, "Age": 30}, 
+    {"Emp-name": "Peter Parker", "Emp-mobile": "1111111111", "Emp-sal": 7500, "Age": 28}, 
+    {"Emp-name": "Mary Jane Watson", "Emp-mobile": "2222222222", "Emp-sal": 8500, 
+"Age": 27}, 
+    {"Emp-name": "Bruce Wayne", "Emp-mobile": "3333333333", "Emp-sal": 12000, "Age": 35} 
+]) 
+ 
+# Find the employees getting salary between 5000 to 10000 
+cursor = collection.find({"Emp-sal": {"$gt": 5000, "$lt": 10000}}) 
+ 
+# Print the results 
+for document in cursor: 
+    print(document) 
+ 
+# Update mobile number for the employee named as “Riddhi” 
+collection.update_one({"Emp-name": "Riddhi"}, {"$set": {"Emp-mobile": "9999999999"}}) 
+ 
+# Display all employees in the order of “Age” 
+cursor = collection.find().sort("Age", pymongo.ASCENDING) 
+ 
+# Print the results 
+for document in cursor: 
+    print(document) 
+ 
+ 
+Q43. Write a program to demonstrate: [4]  
+i) Creating a Thread without using any class  
+ii) Creating a Thread by extending Thread class. 
+Ans :  
+ 
+import threading 
+ 
+def my_function(): 
+    print("This is a thread without using any class.") 
+ 
+t1 = threading.Thread(target=my_function) 
+t1.start() 
+ 
+class MyThread(threading.Thread): 
+    def run(self): 
+        print("This is a thread by extending the Thread class.") 
+ 
+t2 = MyThread() 
+t2.start() 
+ 
+t1.join() 
+t2.join() 
+ 
+print("Both threads finished.") 
+
+
+ 
+Q44. Write a Pythan program to check the validity of a password given by user. [4]  
+The password should satisfy following criteria:  
+i) Contain at least 1 letter between a and z  
+ii) Contain at least 1 number between 0 and 9  
+iii) Contain at least 1 letter between A and Z 
+iv) Contain at least 1 character from $, #, @,* 
+v) Minimum length of password : 8  
+vi) Maximum length of password : 20 
+Ans : 
+ 
+def is_valid_password(password): 
+    if not any(char.islower() for char in password): 
+        return False 
+    if not any(char.isdigit() for char in password): 
+        return False 
+    if not any(char.isupper() for char in password): 
+        return False 
+    special_chars = {'$', '#', '@', '*'} 
+    if not any(char in special_chars for char in password): 
+        return False 
+    if len(password) < 8 or len(password) > 20: 
+        return False 
+     
+    return True 
+ 
+password = input("Enter your password: ") 
+ 
+if is_valid_password(password): 
+    print("Valid password!") 
+else: 
+    print("Invalid password.") 
+
+
+ 
+Q45. Write a program for synchronization of threads using RLOCK. Accept the two 
+numbers from user and calculate factorial of both numbers simultaneonly. 
+Ans : 
+ 
+import threading 
+import math 
+ 
+class FactorialCalculator(threading.Thread): 
+    def __init__(self, number, lock): 
+        super().__init__() 
+        self.number = number 
+        self.lock = lock 
+     
+    def run(self): 
+        with self.lock: 
+            print(f"Factorial of {self.number}: {math.factorial(self.number)}") 
+ 
+num1 = int(input("Enter the first number: ")) 
+num2 = int(input("Enter the second number: ")) 
+ 
+lock = threading.RLock() 
+ 
+thread1 = FactorialCalculator(num1, lock) 
+thread2 = FactorialCalculator(num2, lock) 
+ 
+thread1.start() 
+thread2.start() 
+ 
+thread1.join() 
+thread2.join() 
+ 
+print("Factorial calculation completed.")  
+ 
+
+
+Q46. Write a python program [4]  
+i) To remove all leading ‘zeros’ from an IP address  
+ii) To find all 5 character long words in a string Accept string from user. 
+Ans : 
+ 
+import re 
+ 
+def remove_leading_zeros(ip_address): 
+  return re.sub(r'\.[0]*', '.', ip_address) 
+ 
+def find_five_character_words(string): 
+  return re.findall(r'\b\w{5}\b', string) 
+ 
+ip_address = input('Enter an IP address: ') 
+ 
+ip_address = remove_leading_zeros(ip_address) 
+ 
+print('The IP address with all leading zeros removed is:', ip_address) 
+ 
+string = input('Enter a string: ') 
+ 
+five_character_words = find_five_character_words(string) 
+ 
+print('The 5 character long words in the string are:', five_character_words) 
+ 
+
+
+Q47. Draw bar graph using matplotlib and decorate it by adding various elements. 
+Ans :  
+ 
+import matplotlib.pyplot as plt 
+x = [1, 2, 3, 4, 5] 
+y = [2, 4, 6, 8, 10] 
+plt.bar(x, y) 
+# Add a legend 
+plt.legend(["Bar 1", "Bar 2"]) 
+# Add error bars 
+plt.errorbar(x, y, yerr=0.5) 
+# Add a trend line 
+plt.plot(x, y, linestyle="--") 
+# Add annotations 
+plt.annotate("This is a bar chart", xy=(1, 2)) 
+# Show the plot 
+plt.show() 
+
+
+
+Q48. Prepare the pandas dataframe from csv file perform following operations.  
+i) Fill all ‘NaN’ values with the mean of respective column.  
+ii) Display last 5 rows 
+Ans : 
+
+import pandas as pd 
+df = pd.read_csv('your_file.csv') 
+df.fillna(df.mean(), inplace=True) 
+# ii) Display last 5 rows 
+print("Last 5 rows of the DataFrame:") 
+print(df.tail(5)) 
+
+
+
+Q49. Write a program to illustrate numpy array attributes/functions. [4]  
+i) ndarray. shape  
+ii) np. zeros ( )  
+iii) np. eye ( )  
+iv) np. random. random ( ) 
+Ans : 
+
+import numpy as np 
+x = np.ones((3, 4)) 
+print("Shape of x:", x.shape) 
+y = np.zeros((3, 4)) 
+print("Array y:", y) 
+I = np.eye(3) 
+print("Identity matrix I:", I) 
+rand_array = np.random.random((3, 4)) 
+print("Random array:", rand_array) 
+
+
+
+Q50.  Read data from csv five and create dataframe. Perform following operations.  
+i) Display list of all columns.  
+ii) Display data with last three rows and first three column 
+Ans : 
+
+import pandas as pd 
+df = pd.read_csv('data.csv') 
+print(df.columns) 
+print(df.iloc[-3:, :3]) 
+
+
+Q51. Draw line graph using matplotlib and decorate it by adding various elements. 
+Use suitable data. 
+Ans : 
+
+import matplotlib.pyplot as plt 
+import numpy as np 
+x = np.linspace(0, 10, 100) 
+y = np.sin(x) 
+plt.plot(x, y, color='red', linewidth=2) 
+# Add a title and labels 
+plt.title('Line Graph') 
+plt.xlabel('X-axis') 
+plt.ylabel('Y-axis') 
+# Add a grid 
+plt.grid(True) 
+# Add a legend 
+plt.legend(['Sine Wave'], loc='upper left') 
+# Show the plot 
+plt.show() 
+
+
+Q52. Write a program to validate date pattern using regexp (2022-05-11). 
+Ans : 
+ 
+import re 
+ 
+# Define the regular expression pattern for a date in the format YYYY-MM-DD 
+regex = "^([0-9]{4})-([0-9]{2})-([0-9]{2})$" 
+ 
+pattern = re.compile(regex) 
+ 
+date_string = "2022-05-11" 
+match = pattern.match(date_string) 
+ 
+if match: 
+    print("Valid date") 
+else: 
+    print("Invalid date") 
+ 
+ 
+Q53. Write a program that creates two threads to find and print even and odd number 
+from 30 to 50. 
+Ans : 
+import threading 
+ 
+def print_even(): 
+    for i in range(30, 51): 
+        if i % 2 == 0: 
+            print("Even thread:", i) 
+ 
+def print_odd(): 
+    for i in range(30, 51): 
+        if i % 2 != 0: 
+            print("Odd thread:", i) 
+ 
+if __name__ == "__main__": 
+    even_thread = threading.Thread(target=print_even) 
+    odd_thread = threading.Thread(target=print_odd) 
+ 
+    even_thread.start() 
+    odd_thread.start() 
+ 
+    even_thread.join() 
+    odd_thread.join() 
+ 
+    print("Both threads completed.") 
+ 
+ 
+
+Q54. Write a program to calculate the factorial of a number using multiple threads. 
+Ans : 
+ 
+import threading 
+ 
+def factorial(n, result): 
+    fact = 1 
+    for i in range(1, n + 1): 
+        fact *= i 
+    result.append(fact) 
+ 
+def calculate_factorial_with_threads(n, num_threads): 
+    results = [] 
+ 
+    numbers_per_thread = n // num_threads 
+    remaining_numbers = n % num_threads 
+ 
+    threads = [] 
+ 
+    for i in range(num_threads): 
+        start = i * numbers_per_thread + 1 
+        end = start + numbers_per_thread - 1 
+        if i == num_threads - 1: 
+            end += remaining_numbers 
+        thread = threading.Thread(target=factorial, args=(end, results)) 
+        threads.append(thread) 
+        thread.start() 
+ 
+    for thread in threads: 
+        thread.join() 
+ 
+    final_result = 1 
+    for result in results: 
+        final_result *= result 
+ 
+    return final_result 
+ 
+number = 10 
+num_threads = 4 
+result = calculate_factorial_with_threads(number, num_threads) 
+print(f"The factorial of {number} is: {result}") 
+ 
+
+
+Q55. Write a program to read content from one file and write it into another file using 
+file method. 
+Ans : 
+ 
+def read_write_file(filename1, filename2): 
+  with open(filename1, "r") as f1, open(filename2, "w") as f2: 
+    for line in f1: 
+      f2.write(line) 
+ 
+if __name__ == "__main__": 
+  read_write_file("filename1.txt", "filename2.txt") 
+ 
+
+ 
+Q56. Write a program to perform arithmetic operations on NumPy array. 
+Ans : 
+ 
+import numpy as np 
+ 
+array1 = np.array([[1, 2], [3, 4]]) 
+array2 = np.array([[5, 6], [7, 8]]) 
+ 
+# Addition 
+addition_result = array1 + array2 
+print("Addition Result:") 
+print(addition_result) 
+ 
+# Subtraction 
+subtraction_result = array1 - array2 
+print("\nSubtraction Result:") 
+print(subtraction_result) 
+ 
+# Multiplication 
+multiplication_result = array1 * array2 
+print("\nMultiplication Result:") 
+print(multiplication_result) 
+ 
+# Division 
+division_result = array1 / array2 
+print("\nDivision Result:") 
+print(division_result) 
+ 
+ 
+Q57. Write a program to read the contents of file and perform following operations 
+a) display number of words 
+b) display number of characters 
+c) display number of vowels 
+d) display number of lines 
+e) reverse each word and display it 
+ 
+Ans :  
+ 
+with open('file.txt', 'r') as file: 
+    content = file.read() 
+ 
+    # a) Display number of words 
+    num_words = len(content.split()) 
+    print("Number of words:", num_words) 
+ 
+    # b) Display number of characters 
+    num_characters = len(content) 
+    print("Number of characters:", num_characters) 
+ 
+    # c) Display number of vowels 
+    vowels = "aeiouAEIOU" 
+    num_vowels = sum(1 for char in content if char in vowels) 
+    print("Number of vowels:", num_vowels) 
+ 
+    # d) Display number of lines 
+    num_lines = content.count('\n') + 1 
+    print("Number of lines:", num_lines) 
+ 
+    # e) Reverse each word and display it 
+    reversed_content = ' '.join(word[::-1] for word in content.split()) 
+    print("Reversed content:") 
+    print(reversed_content) 
+ 
+
+
+Q58. Write a python program to read text file and display alternate characters. 
+Ans : 
+ 
+with open('file.txt', 'r') as file: 
+    content = file.read() 
+ 
+    alternate_characters = content[::2] 
+    print("Alternate characters:") 
+    print(alternate_characters) 
+ 
+
+
+Q59. Write a program to perform the following operations on a dictionary. 
+1. Check whether a given key exists in a dictionary or not. 
+2. Iterate over dictionary items using a for loop. 
+3. Concatenate two dictionaries create one. 
+4. Sum all the values of a dictionary. 
+5. Get the maximum and minimum value of the dictionary. 
+Ans :  
+ 
+dict1 = {'a': 10, 'b': 20, 'c': 30} 
+dict2 = {'d': 40, 'e': 50, 'f': 60} 
+ 
+# 1. Check whether a given key exists in a dictionary or not 
+key_to_check = 'b' 
+if key_to_check in dict1: 
+    print(f"The key '{key_to_check}' exists in the dictionary.") 
+else: 
+    print(f"The key '{key_to_check}' does not exist in the dictionary.") 
+ 
+# 2. Iterate over dictionary items using a for loop 
+print("Iterating over dictionary items:") 
+for key, value in dict1.items(): 
+    print(f"Key: {key}, Value: {value}") 
+ 
+# 3. Concatenate two dictionaries to create one 
+concatenated_dict = {**dict1, **dict2} 
+print("Concatenated dictionary:") 
+print(concatenated_dict) 
+ 
+# 4. Sum all the values of a dictionary 
+total_sum = sum(dict1.values()) 
+print("Sum of all values in dict1:", total_sum) 
+ 
+# 5. Get the maximum and minimum value of the dictionary 
+max_value = max(dict1.values()) 
+min_value = min(dict1.values()) 
+print("Maximum value in dict1:", max_value) 
+print("Minimum value in dict1:", min_value) 
+ 
+
+
+Q60. Write a program to demonstrate Decorators in Python. 
+Ans : 
+ 
+def my_decorator(func): 
+    def wrapper(): 
+        print("Something is happening before the function is called.") 
+        func() 
+        print("Something is happening after the function is called.") 
+    return wrapper 
+ 
+# Decorate a function without using def 
+@my_decorator 
+def say_hello(): 
+    print("Hello!") 
+ 
+# Call the decorated function 
+say_hello() 
+ 
+
+
+Q61. Write a program to create a list of words from the given string which are less 
+than size 'A'.  
+Input String: "Python programming language has lot of applications in data 
+analytics".  
+Input n = 8  
+Ans :  
+ 
+def words_less_than_size(string, n): 
+    words = string.split() 
+    filtered_words = [word for word in words if len(word) < n] 
+    return filtered_words 
+ 
+input_string = "Python programming language has lot of applications in data analytics" 
+n = 8 
+result = words_less_than_size(input_string, n) 
+print("Words less than size 'A':", result) 
+ 
+
+
+
+Q62. Write a program to swap two numbers without using temporary variable accept 
+input from the user. 
+Ans : 
+ 
+# Accept input from the user 
+num1 = float(input("Enter first number: ")) 
+num2 = float(input("Enter second number: ")) 
+ 
+print("Before swapping:") 
+print("First number:", num1) 
+print("Second number:", num2) 
+ 
+# Swapping without using a temporary variable 
+num1 = num1 + num2 
+num2 = num1 - num2 
+num1 = num1 - num2 
+ 
+print("\nAfter swapping:") 
+print("First number:", num1) 
+print("Second number:", num2) 
+ 
+ 
+Q63. Explain generators with example. 
+Ans : 
+ 
+def fibonacci_generator(): 
+    a, b = 0, 1 
+    while True: 
+        yield a 
+        a, b = b, a + b 
+ 
+# Create a generator object 
+fib_gen = fibonacci_generator() 
+ 
+# Print the first 10 Fibonacci numbers 
+for _ in range(10): 
+    print(next(fib_gen)) 
+ 
+Q64. Write a program to accept an integer number and use try/except to catch the 
+exception if a floating point number is entered. 
+Ans : 
+ 
+try: 
+    num = int(input("Enter an integer number: ")) 
+    print("You entered:", num) 
+except ValueError: 
+    print("Error: You entered a floating-point number. Please enter an integer.") 
+ 
+Q68. Explain deep copy with suitable example. 
+Ans : 
+
+import copy 
+# Original list with nested lists 
+original_list = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] 
+# Make a deep copy of the original list 
+deep_copied_list = copy.deepcopy(original_list) 
+# Modify the deep copied list 
+deep_copied_list[0][0] = 100 
+ 
+# Print both original and deep copied lists 
+print("Original List:", original_list) 
+print("Deep Copied List:", deep_copied_list) 
+ 
+Q69.Write a program that creates two threads. One thread should 
+print even numbers from 2 to 8 and the other should print odd numbers from I to 7.  
+Ans : 
+ 
+import threading 
+ 
+def print_even(): 
+    for i in range(2, 9, 2): 
+        print("Even Thread:", i) 
+ 
+def print_odd(): 
+    for i in range(1, 8, 2): 
+        print("Odd Thread:", i) 
+ 
+# Create threads 
+even_thread = threading.Thread(target=print_even) 
+odd_thread = threading.Thread(target=print_odd) 
+ 
+# Start threads 
+even_thread.start() 
+odd_thread.start() 
+ 
+# Wait for threads to complete 
+even_thread.join() 
+odd_thread.join() 
+ 
+print("Both threads have finished execution.") 
+ 
+
+
+Q70. write a program to demonstrate the overriding of the base class method in 
+derived class 
+Ans : 
+ 
+class Animal: 
+    def make_sound(self): 
+        print("Animal makes a generic sound") 
+ 
+class Dog(Animal): 
+    def make_sound(self): 
+        print("Dog barks") 
+ 
+class Cat(Animal): 
+    def make_sound(self): 
+        print("Cat meows") 
+ 
+# Create instances of Dog and Cat 
+dog = Dog() 
+cat = Cat() 
+ 
+# Call the overridden method for Dog and Cat 
+dog.make_sound() 
+cat.make_sound() 
+ 
+
+
+Q71. Create a class "Bank" having attributes "Bank name" "Branch", "City". "Manager 
+Name" and methods "Change manager name" and "Display details." write a 
+constructor to initialize the instance variables. Write a main program to demonstrate 
+the use of Bank class. 
+Ans : 
+ 
+class Bank: 
+    def __init__(self, bank_name, branch, city, manager_name): 
+        self.bank_name = bank_name 
+        self.branch = branch 
+        self.city = city 
+        self.manager_name = manager_name 
+ 
+    def change_manager_name(self, new_manager_name): 
+        self.manager_name = new_manager_name 
+        print("Manager name changed successfully.") 
+ 
+    def display_details(self): 
+        print("Bank Name:", self.bank_name) 
+        print("Branch:", self.branch) 
+        print("City:", self.city) 
+        print("Manager Name:", self.manager_name) 
+ 
+# Main program to demonstrate the Bank class 
+if __name__ == "__main__": 
+    # Create an instance of the Bank class 
+    bank = Bank("ABC Bank", "Main Branch", "New York", "John Doe") 
+ 
+    # Display initial details 
+    print("Initial Bank Details:") 
+    bank.display_details() 
+ 
+    # Change manager name 
+    bank.change_manager_name("Jane Smith") 
+ 
+    # Display updated details 
+    print("\nUpdated Bank Details:") 
+bank.display_details() 

@@ -1,0 +1,1059 @@
+Q1. Write a PHP script to display employees belongs to Sales department and salary 
+is in between 50000 to 90000 and store found records into another table. 
+Ans : 
+ 
+<?php 
+$servername = "localhost"; 
+$username = "username"; 
+$password = "password"; 
+$dbname = "your_database"; 
+ 
+$conn = new mysqli($servername, $username, $password, $dbname); 
+ 
+if ($conn->connect_error) { 
+    die("Connection failed: " . $conn->connect_error); 
+} 
+ 
+$sql = "SELECT * FROM employees WHERE department = 'Sales' AND salary BETWEEN 
+50000 AND 90000"; 
+$result = $conn->query($sql); 
+ 
+if ($result->num_rows > 0) { 
+    while($row = $result->fetch_assoc()) { 
+        $id = $row["id"]; 
+        $name = $row["name"]; 
+        $department = $row["department"]; 
+        $salary = $row["salary"]; 
+         
+        $insert_sql = "INSERT INTO another_table (id, name, department, salary) VALUES 
+('$id', '$name', '$department', '$salary')"; 
+        if ($conn->query($insert_sql) === TRUE) { 
+            echo "Record inserted successfully<br>"; 
+        } else { 
+            echo "Error inserting record: " . $conn->error . "<br>"; 
+        } 
+    } 
+} else { 
+    echo "No employees found in the Sales department with salary between 50000 and 
+90000<br>"; 
+} 
+ 
+$conn->close(); 
+?> 
+ 
+
+ 
+Q2. Write a PHP script to design Employee Registration form. Insert 5 records in 
+database and display all the inserted records on new page. 
+Ans : 
+ 
+employee_registration_form.php: 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Employee Registration Form</title> 
+</head> 
+<body> 
+    <h2>Employee Registration Form</h2> 
+    <form action="insert_employee.php" method="POST"> 
+        <label for="name">Name:</label><br> 
+        <input type="text" id="name" name="name" required><br> 
+        <label for="designation">Designation:</label><br> 
+        <input type="text" id="designation" name="designation" required><br> 
+        <label for="salary">Salary:</label><br> 
+        <input type="number" id="salary" name="salary" required><br><br> 
+        <input type="submit" value="Submit"> 
+    </form> 
+</body> 
+</html> 
+ 
+ 
+insert_employee.php: 
+ 
+<?php 
+$servername = "localhost"; 
+$username = "your_username"; 
+$password = "your_password"; 
+$dbname = "your_database"; 
+ 
+$conn = new mysqli($servername, $username, $password, $dbname); 
+ 
+if ($conn->connect_error) { 
+    die("Connection failed: " . $conn->connect_error); 
+} 
+ 
+$name = $_POST['name']; 
+$designation = $_POST['designation']; 
+$salary = $_POST['salary']; 
+ 
+$sql = "INSERT INTO employees (name, designation, salary) VALUES ('$name', 
+'$designation', '$salary')"; 
+ 
+if ($conn->query($sql) === TRUE) { 
+    echo "New record inserted successfully<br>"; 
+} else { 
+    echo "Error: " . $sql . "<br>" . $conn->error; 
+} 
+ 
+$conn->close(); 
+?> 
+ 
+<a href="display_employees.php">View all employees</a> 
+ 
+ 
+display_employees.php: 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Employee Records</title> 
+</head> 
+<body> 
+    <h2>Employee Records</h2> 
+    <table border="1"> 
+        <tr> 
+            <th>Name</th> 
+            <th>Designation</th> 
+            <th>Salary</th> 
+        </tr> 
+        <?php 
+        $servername = "localhost"; 
+        $username = "your_username"; 
+        $password = "your_password"; 
+        $dbname = "your_database"; 
+ 
+        $conn = new mysqli($servername, $username, $password, $dbname); 
+ 
+        if ($conn->connect_error) { 
+            die("Connection failed: " . $conn->connect_error); 
+        } 
+ 
+        $sql = "SELECT * FROM employees"; 
+        $result = $conn->query($sql); 
+ 
+        if ($result->num_rows > 0) { 
+            while($row = $result->fetch_assoc()) { 
+                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["designation"] . "</td><td>" . 
+$row["salary"] . "</td></tr>"; 
+            } 
+        } else { 
+            echo "0 results"; 
+        } 
+        $conn->close(); 
+        ?> 
+    </table> 
+</body> 
+</html> 
+ 
+ 
+ 
+Q3. Write a program to show current data and time using defined module in node js. 
+Ans : 
+ 
+const fs = require('fs'); 
+ 
+function getCurrentDateTime() { 
+    const currentDate = new Date(); 
+     
+    const formattedDateTime = currentDate.toLocaleString(); 
+ 
+    return formattedDateTime; 
+} 
+ 
+function main() { 
+    const currentDateTime = getCurrentDateTime(); 
+     
+    console.log('Current Date and Time:', currentDateTime); 
+} 
+ 
+main(); 
+ 
+ 
+Q4. Write a php program to store the username in a cookie and check whether the 
+user has successfully logged in or not 
+Ans: 
+ 
+<?php 
+function setCookieUsername($username) { 
+    setcookie("username", $username, time() + 3600, "/"); 
+} 
+ 
+function isLoggedIn() { 
+    return isset($_COOKIE['username']); 
+} 
+ 
+if (isset($_POST['submit'])) { 
+    $username = $_POST['username']; 
+ 
+    setCookieUsername($username); 
+ 
+    header("Location: logged_in.php"); 
+    exit; 
+} 
+?> 
+ 
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Login Page</title> 
+</head> 
+<body> 
+    <h2>Login</h2> 
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); 
+?>"> 
+        Username: <input type="text" name="username"><br><br> 
+        <input type="submit" name="submit" value="Login"> 
+    </form> 
+</body> 
+</html> 
+ 
+ 
+Q5. Write a program in NodeJS to perform file CRUD operation by using fs module. 
+Ans : 
+ 
+const fs = require('fs'); 
+ 
+// File path 
+const filePath = 'data.txt'; 
+ 
+// Create a new file 
+const createFile = (data) => { 
+    fs.writeFile(filePath, data, (err) => { 
+        if (err) { 
+            console.error('Error creating file:', err); 
+            return; 
+        } 
+        console.log('File created successfully.'); 
+    }); 
+}; 
+ 
+// Read file contents 
+const readFile = () => { 
+    fs.readFile(filePath, 'utf8', (err, data) => { 
+        if (err) { 
+            console.error('Error reading file:', err); 
+            return; 
+        } 
+        console.log('File contents:', data); 
+    }); 
+}; 
+ 
+// Update file contents 
+const updateFile = (newData) => { 
+    fs.appendFile(filePath, newData, (err) => { 
+        if (err) { 
+            console.error('Error updating file:', err); 
+            return; 
+        } 
+        console.log('File updated successfully.'); 
+    }); 
+}; 
+ 
+// Delete file 
+const deleteFile = () => { 
+    fs.unlink(filePath, (err) => { 
+        if (err) { 
+            console.error('Error deleting file:', err); 
+            return; 
+        } 
+        console.log('File deleted successfully.'); 
+    }); 
+}; 
+ 
+// Perform CRUD operations 
+createFile('Initial file content.\n'); 
+ 
+readFile(); 
+ 
+updateFile('New data appended to file.\n'); 
+ 
+readFile(); 
+ 
+deleteFile(); 
+ 
+ 
+Q6. Create an Angular program which will demonstrate the use of ngswitch directive. 
+Ans : 
+ 
+switch-demo.component.html 
+ 
+<div [ngSwitch]="color"> 
+  <p *ngSwitchCase="'red'">You selected Red</p> 
+  <p *ngSwitchCase="'blue'">You selected Blue</p> 
+  <p *ngSwitchCase="'green'">You selected Green</p> 
+  <p *ngSwitchDefault>Invalid color selection</p> 
+</div> 
+ 
+<select [(ngModel)]="color"> 
+  <option value="red">Red</option> 
+  <option value="blue">Blue</option> 
+  <option value="green">Green</option> 
+</select> 
+ 
+ 
+switch-demo.component.ts 
+ 
+import { Component } from '@angular/core'; 
+ 
+@Component({ 
+  selector: 'app-switch-demo', 
+  templateUrl: './switch-demo.component.html', 
+  styleUrls: ['./switch-demo.component.css'] 
+}) 
+export class SwitchDemoComponent { 
+color: string = 'red';  
+} 
+
+
+
+Q7. Write a program using tag to draw line, rectangle and triangle shapes. 
+Ans :  
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>SVG Shapes</title> 
+</head> 
+<body> 
+<svg width="500" height="500"> 
+<line x1="0" y1="0" x2="500" y2="500" stroke="black" stroke-width="5" /> 
+<rect x="100" y="100" width="200" height="100" fill="red" /> 
+<polygon points="100,100 200,200 300,100" fill="blue" /> 
+</svg> 
+</body> 
+</html>   
+
+
+Q10. Write a program in NodeJS using event handling to perform all basic arithmetic 
+operations. 
+Ans : 
+ 
+const EventEmitter = require('events'); 
+ 
+class Calculator extends EventEmitter { 
+  add(a, b) { 
+    this.emit('result', a + b); 
+  } 
+ 
+  subtract(a, b) { 
+    this.emit('result', a - b); 
+  } 
+ 
+  multiply(a, b) { 
+    this.emit('result', a * b); 
+  } 
+ 
+  divide(a, b) { 
+    if (b === 0) { 
+      this.emit('error', 'Division by zero is not allowed'); 
+    } else { 
+      this.emit('result', a / b); 
+    } 
+  } 
+} 
+ 
+const calculator = new Calculator(); 
+ 
+calculator.on('result', (result) => { 
+  console.log('Result:', result); 
+}); 
+ 
+calculator.on('error', (error) => { 
+  console.error('Error:', error); 
+}); 
+ 
+calculator.add(5, 3); 
+calculator.subtract(10, 4); 
+calculator.multiply(2, 6); 
+calculator.divide(8, 2); 
+calculator.divide(5, 0);  
+ 
+ 
+Q11. Write a program in NodeJS to perform file CRUD operations by using url module. 
+Ans : 
+ 
+const url = require('url'); 
+const fs = require('fs'); 
+ 
+const createFile = (filePath, contents) => { 
+  const fileUrl = url.parse(filePath); 
+ 
+const file = fs.openSync(fileUrl.pathname, 'w'); 
+fs.writeSync(file, contents); 
+fs.closeSync(file); 
+}; 
+const readFile = (filePath) => { 
+const fileUrl = url.parse(filePath); 
+const file = fs.openSync(fileUrl.pathname, 'r'); 
+const contents = fs.readFileSync(file); 
+fs.closeSync(file); 
+return contents; 
+}; 
+const updateFile = (filePath, contents) => { 
+const fileUrl = url.parse(filePath); 
+const file = fs.openSync(fileUrl.pathname, 'w'); 
+fs.writeSync(file, contents); 
+fs.closeSync(file); 
+}; 
+const deleteFile = (filePath) => { 
+const fileUrl = url.parse(filePath); 
+fs.unlinkSync(fileUrl.pathname); 
+}; 
+createFile('./test.txt', 'Hello, world!'); 
+const contents = readFile('./test.txt'); 
+updateFile('./test.txt', 'Goodbye, world!'); 
+deleteFile('./test.txt'); 
+
+
+Q12. Create an angular program which will demonstrate the usage of ngfor directive. 
+Ans : 
+app.component.ts: 
+import { Component } from '@angular/core'; 
+@Component({ 
+selector: 'app-root', 
+templateUrl: './app.component.html', 
+styleUrls: ['./app.component.css'] 
+}) 
+export class AppComponent { 
+fruits = ['Apple', 'Banana', 'Orange', 'Mango', 'Grapes']; 
+} 
+app.component.html: 
+<h1>List of Fruits</h1> 
+<ul> 
+<li *ngFor="let fruit of fruits">{{ fruit }}</li> 
+</ul> 
+app.component.css: 
+ul { 
+list-style-type: none; 
+padding: 0; 
+} 
+li { 
+background-color: #f0f0f0; 
+margin-bottom: 5px; 
+padding: 10px; 
+border-radius: 5px; 
+} 
+app.module.ts: 
+import { BrowserModule } from '@angular/platform-browser'; 
+import { NgModule } from '@angular/core'; 
+import { AppComponent } from './app.component'; 
+@NgModule({ 
+declarations: [ 
+AppComponent 
+], 
+imports: [ 
+BrowserModule 
+], 
+providers: [], 
+bootstrap: [AppComponent] 
+}) 
+export class AppModule { } 
+
+
+Q13. Write a program to display string in uppercase & lowercase using Angular JS 
+filters. 
+Ans : 
+<!DOCTYPE html> 
+<html lang="en" ng-app="myApp"> 
+<head> 
+<meta charset="UTF-8"> 
+<title>AngularJS Filters</title> 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script> 
+</head> 
+<body> 
+<div ng-controller="myCtrl"> 
+<input type="text" ng-model="inputText"> 
+<p>Uppercase: {{ inputText | uppercase }}</p> 
+<p>Lowercase: {{ inputText | lowercase }}</p> 
+</div> 
+<script> 
+angular.module('myApp', []) 
+.controller('myCtrl', function($scope) { 
+// You can initialize inputText with some default value 
+$scope.inputText = ''; 
+}); 
+</script> 
+</body> 
+</html> 
+
+
+Q15. Write a program for multiplication of 2 numbers using event handling in node. js. 
+Call multiplication function as an event call. 
+Ans : 
+const EventEmitter = require('events'); 
+class Multiplier extends EventEmitter { 
+multiply(a, b) { 
+this.emit('result', a * b); 
+} 
+} 
+const multiplier = new Multiplier(); 
+multiplier.on('result', (result) => { 
+console.log('The result of multiplication:', result); 
+}); 
+ 
+multiplier.multiply(5, 10); 
+
+ 
+Q16. Create a login form, both username & password fields are mandatory, after 
+entering the values transfer user control to next web page showing message as “You 
+have login successfully”. (Use ng-href & ng-required). 
+Ans : 
+ 
+index.html: 
+ 
+<!DOCTYPE html> 
+<html lang="en" ng-app="loginApp"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Login Page</title> 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script> 
+</head> 
+<body ng-controller="LoginController"> 
+  <h2>Login Form</h2> 
+  <form ng-submit="login()" ng-show="!loggedIn"> 
+    <div> 
+      <label for="username">Username:</label> 
+      <input type="text" id="username" ng-model="user.username" ng-required="true"> 
+    </div> 
+    <div> 
+      <label for="password">Password:</label> 
+      <input type="password" id="password" ng-model="user.password" ng-required="true"> 
+    </div> 
+    <button type="submit">Login</button> 
+  </form> 
+  <div ng-show="loggedIn"> 
+    <p>You have logged in successfully.</p> 
+    <a ng-href="nextPage.html">Go to next page</a> 
+  </div> 
+ 
+  <script> 
+    angular.module('loginApp', []) 
+    .controller('LoginController', function($scope, $window) { 
+      $scope.user = { 
+        username: '', 
+        password: '' 
+      }; 
+      $scope.loggedIn = false; 
+ 
+      $scope.login = function() { 
+        // Perform authentication here 
+        // For demonstration purpose, let's assume the login is successful 
+        $scope.loggedIn = true; 
+      }; 
+    }); 
+</script> 
+</body> 
+</html> 
+
+nextPage.html: 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<title>Next Page</title> 
+</head> 
+<body> 
+<h2>Welcome to Next Page</h2> 
+<p>You have logged in successfully.</p> 
+</body> 
+</html> 
+
+
+
+ 
+Q18. Write a pHp script to demonstrate multidiamensional arrays. 
+Ans : 
+ 
+<?php 
+ 
+$students = array( 
+    array("John", 80, 75, 85), 
+    array("Alice", 90, 95, 88), 
+    array("Bob", 85, 82, 90) 
+); 
+ 
+echo "<h2>Student Grades</h2>"; 
+ 
+echo "<table border='1'>"; 
+echo "<tr><th>Name</th><th>Math</th><th>Science</th><th>English</th></tr>"; 
+ 
+foreach ($students as $student) { 
+    echo "<tr>"; 
+    foreach ($student as $data) { 
+        echo "<td>$data</td>"; 
+    } 
+    echo "</tr>"; 
+} 
+ 
+echo "</table>"; 
+ 
+?> 
+ 
+Q19. Write a PHP script to create a database using MYSQL. 
+Ans : 
+ 
+<?php 
+ 
+// Database connection parameters 
+$servername = "localhost"; 
+$username = "root"; 
+$password = "";  
+ 
+$conn = new mysqli($servername, $username, $password); 
+ 
+if ($conn->connect_error) { 
+    die("Connection failed: " . $conn->connect_error); 
+} 
+ 
+$sql = "CREATE DATABASE mydatabase";  
+ 
+if ($conn->query($sql) === TRUE) { 
+    echo "Database created successfully"; 
+} else { 
+    echo "Error creating database: " . $conn->error; 
+} 
+ 
+// Close connection 
+$conn->close(); 
+ 
+?> 
+
+ 
+Q20. Write a PHP script to design a form to reschedule the journey dates of flights and 
+display the updated information on new web page. 
+Ans : 
+ 
+reschedule_form.php: 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Reschedule Flight</title> 
+</head> 
+<body> 
+  <h2>Reschedule Flight</h2> 
+  <form action="reschedule_process.php" method="post"> 
+    <label for="flight_id">Flight ID:</label> 
+    <input type="text" id="flight_id" name="flight_id" required><br><br> 
+     
+    <label for="new_date">New Date:</label> 
+    <input type="date" id="new_date" name="new_date" required><br><br> 
+ 
+    <input type="submit" value="Reschedule"> 
+  </form> 
+</body> 
+</html> 
+ 
+reschedule_process.php: 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Flight Reschedule Confirmation</title> 
+</head> 
+<body> 
+<h2>Flight Reschedule Confirmation</h2> 
+<?php 
+$flight_id = $_POST['flight_id']; 
+$new_date = $_POST['new_date']; 
+echo "<p>Flight with ID $flight_id has been rescheduled to $new_date.</p>"; 
+?> 
+<p><a href="reschedule_form.php">Reschedule Another Flight</a></p> 
+</body> 
+</html> 
+
+
+
+Q21. Write a program to demonstrate ngif. & ngswitch statements. 
+Ans : 
+app.component.html: 
+<h2>Demonstrating ngIf Directive</h2> 
+<div *ngIf="showText"> 
+<p>This text is displayed because showText is true.</p> 
+</div> 
+<button (click)="toggleShowText()">Toggle Text</button> 
+<h2>Demonstrating ngSwitch Directive</h2> 
+<div [ngSwitch]="color"> 
+<p *ngSwitchCase="'red'">Red color is selected.</p> 
+<p *ngSwitchCase="'green'">Green color is selected.</p> 
+<p *ngSwitchCase="'blue'">Blue color is selected.</p> 
+<p *ngSwitchDefault>No color is selected.</p> 
+</div> 
+<select [(ngModel)]="color"> 
+<option value="">Select a color</option> 
+<option value="red">Red</option> 
+<option value="green">Green</option> 
+<option value="blue">Blue</option> 
+</select> 
+app.component.ts: 
+import { Component } from '@angular/core'; 
+@Component({ 
+selector: 'app-root', 
+templateUrl: './app.component.html', 
+styleUrls: ['./app.component.css'] 
+}) 
+export class AppComponent { 
+  showText: boolean = true; 
+  color: string = ''; 
+ 
+  toggleShowText() { 
+    this.showText = !this.showText; 
+  } 
+} 
+ 
+ 
+Q22. Write a program to read the query string using url property in Node js. 
+Ans : 
+ 
+const http = require('http'); 
+const url = require('url'); 
+ 
+const server = http.createServer((req, res) => { 
+  const parsedUrl = url.parse(req.url, true); 
+ 
+  const queryData = parsedUrl.query; 
+ 
+  res.writeHead(200, {'Content-Type': 'text/html'}); 
+  res.write('<h2>Query String Parameters:</h2>'); 
+  res.write('<ul>'); 
+  for (const key in queryData) { 
+    res.write(`<li>${key}: ${queryData[key]}</li>`); 
+  } 
+  res.write('</ul>'); 
+  res.end(); 
+}); 
+ 
+const port = 3000; 
+server.listen(port, () => { 
+  console.log(`Server running at http://localhost:${port}/`); 
+}); 
+ 
+ 
+Q23. Create angular program which will demonstrate the usage of component 
+directive. 
+Ans : 
+ 
+app.component.ts: 
+ 
+import { Component } from '@angular/core'; 
+ 
+@Component({ 
+  selector: 'app-greeting', 
+  template: ` 
+    <h1>Hello, {{ name }}!</h1> 
+  ` 
+}) 
+export class GreetingComponent { 
+  name: string = 'World'; 
+} 
+ 
+app.module.ts: 
+ 
+import { NgModule } from '@angular/core'; 
+import { BrowserModule } from '@angular/platform-browser'; 
+ 
+import { AppComponent } from './app.component'; 
+import { GreetingComponent } from './greeting.component'; 
+ 
+@NgModule({ 
+  declarations: [ 
+    AppComponent, 
+    GreetingComponent 
+  ], 
+  imports: [ 
+    BrowserModule 
+  ], 
+  providers: [], 
+  bootstrap: [AppComponent] 
+}) 
+export class AppModule { } 
+ 
+ 
+app.component.ts: 
+ 
+import { Component } from '@angular/core'; 
+ 
+@Component({ 
+  selector: 'app-root', 
+  template: ` 
+    <h2>Welcome to My App!</h2> 
+    <app-greeting></app-greeting> 
+  ` 
+}) 
+export class AppComponent { } 
+ 
+ 
+Q24. Write a program using NPM which will convert entered string into lower case & 
+upper case. 
+Ans : 
+ 
+const readline = require('readline-sync'); 
+ 
+function toLowerCase(str) { 
+    return str.toLowerCase(); 
+} 
+ 
+function toUpperCase(str) { 
+    return str.toUpperCase(); 
+} 
+const input = readline.question('Enter a string: '); 
+const lowercaseString = toLowerCase(input); 
+const uppercaseString = toUpperCase(input); 
+console.log('Lowercase:', lowercaseString); 
+console.log('Uppercase:', uppercaseString); 
+
+
+
+Q26. Write a PHP script to demonstrate variables in PHP. Use Globals, local & global 
+keyword to access variables. 
+Ans : 
+<?php 
+// Global variable 
+$globalVar = "I am a global variable"; 
+function testLocalVariable() { 
+// Local variable 
+$localVar = "I am a local variable"; 
+    echo "Inside the function: " . $localVar . "<br>"; 
+} 
+ 
+function testGlobalVariable() { 
+    // Accessing global variable using global keyword 
+    global $globalVar; 
+    echo "Inside the function: " . $globalVar . "<br>"; 
+} 
+ 
+echo "Global variable outside the function: " . $globalVar . "<br>"; 
+ 
+testLocalVariable(); // Call function to demonstrate local variable 
+testGlobalVariable(); // Call function to demonstrate global variable 
+ 
+?> 
+ 
+  
+ 
+Q28. Write a PHP script to demonstrate any 4 operaters. 
+Ans : 
+ 
+<?php 
+// Arithmetic operator: Addition 
+$a = 10; 
+$b = 5; 
+$sum = $a + $b; 
+echo "Addition of $a and $b is: $sum<br>"; 
+// Comparison operator: Greater than 
+$c = 15; 
+$d = 20; 
+if ($d > $c) { 
+echo "$d is greater than $c<br>"; 
+} else { 
+echo "$d is not greater than $c<br>"; 
+} 
+// Assignment operator: Increment 
+$number = 10; 
+$number++; 
+echo "Incremented number: $number<br>"; 
+// Logical operator: AND 
+$age = 25; 
+$gender = 'male'; 
+if ($age >= 18 && $gender == 'male') { 
+echo "You are a male adult<br>"; 
+} else { 
+echo "You are not a male adult<br>"; 
+} 
+?> 
+ 
+ 
+Q30. Write a PHP script to disply employees belongs to IT department and salary is in 
+between 30, 000 – 80, 000 and store found records into another table. (Assume 
+suitable table structure) 
+Ans : 
+ 
+<?php 
+ 
+$servername = "localhost"; 
+$username = "username"; 
+$password = "password"; 
+$database = "your_database"; 
+ 
+$conn = new mysqli($servername, $username, $password, $database); 
+ 
+if ($conn->connect_error) { 
+    die("Connection failed: " . $conn->connect_error); 
+} 
+ 
+$sql = "SELECT * FROM employees WHERE department = 'IT' AND salary BETWEEN 
+30000 AND 80000"; 
+$result = $conn->query($sql); 
+ 
+if ($result->num_rows > 0) { 
+    while ($row = $result->fetch_assoc()) { 
+        $name = $row['name']; 
+        $salary = $row['salary']; 
+         
+        $insertSql = "INSERT INTO it_employees (name, salary) VALUES ('$name', '$salary')"; 
+        if ($conn->query($insertSql) === TRUE) { 
+            echo "Record inserted successfully: $name, $salary<br>"; 
+        } else { 
+            echo "Error inserting record: " . $conn->error . "<br>"; 
+        } 
+    } 
+} else { 
+    echo "No employees found belonging to IT department with salary between 30,000 and 
+80,000<br>"; 
+} 
+ 
+$conn->close(); 
+ 
+?> 
+ 
+ 
+Q31. Write a PHP script & insert at least 5 records into it & update specific record in 
+database. Assume student table with required fields in database. 
+Ans : 
+ 
+<?php 
+ 
+$servername = "localhost"; 
+$username = "username"; 
+$password = "password"; 
+$database = "your_database"; 
+ 
+$conn = new mysqli($servername, $username, $password, $database); 
+ 
+if ($conn->connect_error) { 
+    die("Connection failed: " . $conn->connect_error); 
+} 
+ 
+$insertSql = "INSERT INTO student (name, age, grade) VALUES  
+                ('John', 20, 'A'),  
+                ('Alice', 21, 'B'),  
+                ('Bob', 22, 'C'),  
+                ('Emma', 19, 'B'),  
+                ('Michael', 20, 'A')"; 
+ 
+if ($conn->query($insertSql) === TRUE) { 
+    echo "Records inserted successfully<br>"; 
+} else { 
+    echo "Error inserting records: " . $conn->error . "<br>"; 
+} 
+ 
+$updateSql = "UPDATE student SET grade = 'A+' WHERE name = 'Alice'"; 
+ 
+if ($conn->query($updateSql) === TRUE) { 
+    echo "Record updated successfully<br>"; 
+} else { 
+    echo "Error updating record: " . $conn->error . "<br>"; 
+} 
+ 
+$conn->close(); 
+ 
+?> 
+ 
+
+Q39. Write a program to create a server in Node.JS and display server responses on a 
+web page. 
+Ans : 
+const http = require('http'); 
+const server = http.createServer((req, res) => { 
+res.writeHead(200, {'Content-Type': 'text/html'}); 
+const responseBody = '<h1>Hello from Node.js server!</h1>'; 
+res.end(responseBody); 
+}); 
+const port = 3000; 
+server.listen(port, () => { 
+console.log(`Server running at http://localhost:${port}/`); 
+}); 
+
+
+
+Q40. Write a program using Canvas tag to draw different shapes (Circle; Triangle and 
+Rectangle). 
+Ans : 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Shapes Drawing</title> 
+</head> 
+<body> 
+<canvas id="myCanvas" width="400" height="400"></canvas> 
+<script> 
+    // Get the canvas element 
+    var canvas = document.getElementById("myCanvas"); 
+    var ctx = canvas.getContext("2d"); 
+ 
+    // Draw a circle 
+    ctx.beginPath(); 
+    ctx.arc(200, 100, 50, 0, 2 * Math.PI); 
+    ctx.stroke(); 
+ 
+    // Draw a triangle 
+    ctx.beginPath(); 
+    ctx.moveTo(150, 200); 
+    ctx.lineTo(250, 200); 
+    ctx.lineTo(200, 300); 
+    ctx.closePath(); 
+    ctx.stroke(); 
+ 
+    // Draw a rectangle 
+    ctx.beginPath(); 
+    ctx.rect(100, 350, 200, 50); 
+    ctx.stroke(); 
+</script> 
+</body> 
+</html> 
+ 
+
+
+Q41. Explain external CSS (CSS properties: font, text, color) with a suitable example. 
+Ans : 
+ 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>External CSS Example</title> 
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file --> 
+</head> 
+<body> 
+    <h1>Welcome to My Website</h1> 
+    <p>This is a paragraph with some text.</p> 
+</body> 
+</html> 
+ 
+/* styles.css */ 
+ 
+body { 
+    font-family: Arial, sans-serif; /* Set the font family */ 
+    font-size: 16px; /* Set the font size */ 
+    font-weight: normal; /* Set the font weight (normal, bold, etc.) */ 
+    font-style: italic; /* Set the font style (normal, italic, oblique) */ 
+    font-variant: small-caps; /* Set the font variant */ 
+} 
+ 
+ 
+/* styles.css */ 
+ 
+h1 { 
+    text-align: center; /* Align text to the center */ 
+    text-decoration: underline; /* Add underline decoration to text */ 
+    text-transform: uppercase; /* Transform text to uppercase */ 
+    letter-spacing: 2px; /* Set letter spacing */ 
+    line-height: 1.5; /* Set line height */ 
+} 
+ 
+/* styles.css */ 
+ 
+p { 
+    color: #333; /* Set text color to dark gray */ 
+} 
+ 
+ 
